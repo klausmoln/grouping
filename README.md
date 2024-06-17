@@ -3,7 +3,7 @@
 
 # Usage
 
-- 运行环境：Linux
+- Release中可执行程序的运行环境：Linux
 - `people.json` 需要与可执行程序 `group` 放在同一个文件夹下
 
 # Description
