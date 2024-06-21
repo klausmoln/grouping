@@ -29,6 +29,10 @@ def load_people():
             for person_data in json_people:
                 person = Person(person_data["name"], person_data["gender"], person_data["location"], person_data["spouse"])
                 people.append(person)
+                if person.gender == "M":
+                    male_list.append(person)
+                else:
+                    female_list.append(person)
                 
                 if person.location == "On-site":
                     listbox_people.insert(tk.END, f"{person.name} ({person.gender})")
@@ -150,18 +154,36 @@ def check_gender_balance(groups):
 
 
 def create_groups(people, num_groups):
-    while True:
-        random.shuffle(people)
-        groups = [[] for _ in range(num_groups)]
-        for i, person in enumerate(people):
-            groups[i % num_groups].append(person)
+    # 方法1:随机分组然后检查分组是否合理
+    # while True:
+    #     random.shuffle(people)
+    #     groups = [[] for _ in range(num_groups)]
+    #     for i, person in enumerate(people):
+    #         groups[i % num_groups].append(person)
 
-        if separate_spouses(groups) and check_gender_balance(groups):
+    #     if separate_spouses(groups) and check_gender_balance(groups):
+    #         return groups
+        
+    # 方法2:先使男生平均分组，再使女生平均分组
+    while True:
+        
+        random.shuffle(male_list)
+        random.shuffle(female_list)
+        groups = [[] for _ in range(num_groups)]
+        for i, person in enumerate(male_list):
+            groups[i % num_groups].append(person)
+        #print(i)
+        i += 1
+        for j, person in enumerate(female_list):
+            groups[(i + j) % num_groups].append(person)
+        if separate_spouses(groups):
             return groups
 
 
 # 初始化人员列表
 people = []
+male_list = []
+female_list = []
 
 # 创建主窗口
 root = tk.Tk()
