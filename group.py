@@ -128,8 +128,8 @@ def show_groups():
         result += f"Group {i + 1}:\n"
         for person in group:
             suffix = "*" if person.location == "Online" else ""
-            #result += f"  {person.name} ({person.gender} {suffix})\n"
-            result += f"  {person.name} {suffix} \n"
+            result += f"  {person.name} ({person.gender}) {suffix}\n"
+            #result += f"  {person.name} {suffix} \n"
     messagebox.showinfo("分组结果", result)
 
 
