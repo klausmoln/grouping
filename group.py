@@ -4,6 +4,7 @@ import json
 import os
 import random
 
+special_people = ["羽菲", "朱睿", "云翼"]
 
 class Person:
     def __init__(self, name, gender, location, spouse=None):
@@ -152,6 +153,12 @@ def check_gender_balance(groups):
             return False
     return True
 
+def separate_special_people(groups):
+    for group in groups:
+        count_group_special_names = sum([1 for person in group if person.name in special_people])
+        if count_group_special_names > 1:
+            return False
+    return True
 
 def create_groups(people, num_groups):
     # 方法1:随机分组然后检查分组是否合理
@@ -176,7 +183,7 @@ def create_groups(people, num_groups):
         i += 1
         for j, person in enumerate(female_list):
             groups[(i + j) % num_groups].append(person)
-        if separate_spouses(groups):
+        if separate_spouses(groups) and separate_special_people(groups):
             return groups
 
 
