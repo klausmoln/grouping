@@ -22,6 +22,23 @@ def save_people():
         ]
         json.dump(json_people, f, ensure_ascii=False, indent=4)
 
+def refresh_listboxes():
+    listbox_people.delete(0, tk.END)
+    listbox_online.delete(0, tk.END)
+    male_list.clear()
+    female_list.clear()
+
+    for person in people:
+        if person.gender == "M":
+            male_list.append(person)
+        else:
+            female_list.append(person)
+        
+        if person.location == "On-site":
+            listbox_people.insert(tk.END, f"{person.name} ({person.gender})")
+        else:
+            listbox_online.insert(tk.END, f"{person.name} ({person.gender})")
+
 
 def load_people():
     if os.path.exists("people.json"):
@@ -51,13 +68,10 @@ def add_person():
         return
     person = Person(name, gender, location, spouse)
     people.append(person)
-    if location == "On-site":
-        listbox_people.insert(tk.END, f"{name} ({gender})")
-    else:
-        listbox_online.insert(tk.END, f"{name} ({gender})")
+    save_people()
+    refresh_listboxes()
     entry_name.delete(0, tk.END)
     entry_spouse.delete(0, tk.END)
-    save_people()
 
 
 def delete_person():
@@ -82,6 +96,7 @@ def delete_person():
             listbox.delete(index)
 
         save_people()
+        refresh_listboxes()
 
     remove_person(listbox_people)
     remove_person(listbox_online)
