@@ -3,6 +3,7 @@ from tkinter import messagebox
 import json
 import os
 import random
+import time
 
 special_people = ["羽菲", "朱睿", "云翼"]
 
@@ -187,6 +188,7 @@ def create_groups(people, num_groups):
     #         return groups
         
     # 方法2:先使男生平均分组，再使女生平均分组
+    start = time.time()
     while True:
         
         random.shuffle(male_list)
@@ -198,8 +200,12 @@ def create_groups(people, num_groups):
         i += 1
         for j, person in enumerate(female_list):
             groups[(i + j) % num_groups].append(person)
+        end = time.time()
         if separate_spouses(groups) and separate_special_people(groups):
             return groups
+        elif (end - start) > 0.5:
+            messagebox.showerror("错误", "不存在满足条件的分组情况")
+            return
 
 
 # 初始化人员列表
