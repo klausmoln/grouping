@@ -5,7 +5,8 @@ import os
 import random
 import time
 
-special_people = ["羽菲", "朱睿", "云翼", "祖盈"]
+special_people1 = ["羽菲", "朱睿", "云翼", "祖盈", "Yanwen"]
+special_people2 = ["李尧", "常健", "志冬"]
 
 class Person:
     def __init__(self, name, gender, location, spouse=None):
@@ -169,10 +170,17 @@ def check_gender_balance(groups):
             return False
     return True
 
-def separate_special_people(groups):
+def separate_special_people1(groups):
     for group in groups:
-        count_group_special_names = sum([1 for person in group if person.name in special_people])
+        count_group_special_names = sum([1 for person in group if person.name in special_people1])
         if count_group_special_names > 2:
+            return False
+    return True
+
+def separate_special_people2(groups):
+    for group in groups:
+        count_group_special_names = sum([1 for person in group if person.name in special_people2])
+        if count_group_special_names > 1:
             return False
     return True
 
@@ -201,7 +209,7 @@ def create_groups(people, num_groups):
         for j, person in enumerate(female_list):
             groups[(i + j) % num_groups].append(person)
         end = time.time()
-        if separate_spouses(groups) and separate_special_people(groups):
+        if separate_spouses(groups) and separate_special_people1(groups) and separate_special_people2(groups):
             return groups
         elif (end - start) > 0.5:
             messagebox.showerror("错误", "不存在满足条件的分组情况")
