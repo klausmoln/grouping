@@ -5,7 +5,7 @@ import os
 import random
 import time
 
-special_people = ["羽菲", "朱睿", "云翼"]
+special_people = ["羽菲", "朱睿", "云翼", "祖盈"]
 
 class Person:
     def __init__(self, name, gender, location, spouse=None):
@@ -172,7 +172,7 @@ def check_gender_balance(groups):
 def separate_special_people(groups):
     for group in groups:
         count_group_special_names = sum([1 for person in group if person.name in special_people])
-        if count_group_special_names > 1:
+        if count_group_special_names > 2:
             return False
     return True
 
