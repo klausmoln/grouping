@@ -54,12 +54,6 @@
         "spouse": "益敏"
     },
     {
-        "name": "Sue",
-        "gender": "F",
-        "location": "On-site",
-        "spouse": ""
-    },
-    {
         "name": "凡舒",
         "gender": "F",
         "location": "On-site",
@@ -108,12 +102,6 @@
         "spouse": ""
     },
     {
-        "name": "德琳",
-        "gender": "F",
-        "location": "On-site",
-        "spouse": "常健"
-    },
-    {
         "name": "益敏",
         "gender": "F",
         "location": "On-site",
@@ -122,6 +110,18 @@
     {
         "name": "彦文",
         "gender": "M",
+        "location": "On-site",
+        "spouse": ""
+    },
+    {
+        "name": "德琳",
+        "gender": "F",
+        "location": "On-site",
+        "spouse": "常健"
+    },
+    {
+        "name": "Sue",
+        "gender": "F",
         "location": "On-site",
         "spouse": ""
     }
