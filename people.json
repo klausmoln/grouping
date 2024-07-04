@@ -84,12 +84,6 @@
         "spouse": "袁航"
     },
     {
-        "name": "云翼",
-        "gender": "M",
-        "location": "On-site",
-        "spouse": ""
-    },
-    {
         "name": "Joe",
         "gender": "M",
         "location": "On-site",
@@ -108,8 +102,14 @@
         "spouse": "李尧"
     },
     {
-        "name": "彦文",
+        "name": "云翼",
         "gender": "M",
+        "location": "On-site",
+        "spouse": ""
+    },
+    {
+        "name": "Sue",
+        "gender": "F",
         "location": "On-site",
         "spouse": ""
     },
@@ -120,8 +120,8 @@
         "spouse": "常健"
     },
     {
-        "name": "Sue",
-        "gender": "F",
+        "name": "彦文",
+        "gender": "M",
         "location": "On-site",
         "spouse": ""
     }

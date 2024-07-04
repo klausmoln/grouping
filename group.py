@@ -44,6 +44,7 @@ def refresh_listboxes():
 
     for person in not_participating_list:
         listbox_not_participating.insert(tk.END, f"{person.name} ({person.gender})")
+    label_current_count.config(text=f"当前人数：{len(people)}")
 
 
 def load_people():
@@ -90,7 +91,7 @@ def delete_person():
     def remove_person(listbox):
         selected_indices = list(listbox.curselection())
         if not selected_indices:
-            messagebox.showerror("选择错误", "请先选择要删除的人")
+        #    messagebox.showerror("选择错误", "请先选择要删除的人")
             return
 
         for index in sorted(selected_indices, reverse=True):
@@ -107,11 +108,12 @@ def delete_person():
 
             listbox.delete(index)
 
-        save_people()
-        refresh_listboxes()
 
     remove_person(listbox_people)
     remove_person(listbox_online)
+    remove_person(listbox_not_participating)
+    save_people()
+    refresh_listboxes()
 
 
 def move_to_online():
@@ -138,17 +140,19 @@ def move_person(source_listbox, target_listbox):
 
     save_people()
 
+#def exit_group():
+#    move_person_to_not_participating(listbox_people)
+#    move_person_to_not_participating(listbox_online)
+
+#def join_group():
+#    move_person_from_not_participating()
+
+#def move_person_to_not_participating(source_listbox):
 def exit_group():
-    move_person_to_not_participating(listbox_people)
-    move_person_to_not_participating(listbox_online)
-
-def join_group():
-    move_person_from_not_participating()
-
-def move_person_to_not_participating(source_listbox):
-    selected_indices = list(source_listbox.curselection())
+    # On-site
+    selected_indices = list(listbox_people.curselection())
     for index in sorted(selected_indices, reverse=True):
-        person_str = source_listbox.get(index)
+        person_str = listbox_people.get(index)
         name = person_str.split(' ')[0]
 
         for person in people:
@@ -158,12 +162,27 @@ def move_person_to_not_participating(source_listbox):
                 break
 
         listbox_not_participating.insert(tk.END, person_str)
-        source_listbox.delete(index)
+        listbox_people.delete(index)
+    
+    # Online
+    selected_indices = list(listbox_online.curselection())
+    for index in sorted(selected_indices, reverse=True):
+        person_str = listbox_online.get(index)
+        name = person_str.split(' ')[0]
+
+        for person in people:
+            if person.name == name:
+                not_participating_list.append(person)
+                people.remove(person)
+                break
+
+        listbox_not_participating.insert(tk.END, person_str)
+        listbox_online.delete(index)
 
     save_people()
     refresh_listboxes()
 
-def move_person_from_not_participating():
+def join_group():
     selected_indices = list(listbox_not_participating.curselection())
     for index in sorted(selected_indices, reverse=True):
         person_str = listbox_not_participating.get(index)
@@ -324,18 +343,18 @@ button_delete.grid(row=4, column=4, padx=10, pady=5)
 
 # 创建退出分组按钮
 button_exit_group = tk.Button(root, text="退出分组", command=exit_group)
-button_exit_group.grid(row=4, column=2, padx=10, pady=5)
+button_exit_group.grid(row=6, column=2, padx=10, pady=5)
 
 # 创建加入分组按钮
 button_join_group = tk.Button(root, text="加入分组", command=join_group)
 button_join_group.grid(row=6, column=4, padx=10, pady=5)
 
 # 创建显示人员列表的列表框
-listbox_people = tk.Listbox(root, selectmode=tk.MULTIPLE, width=20, height=20)  # 允许多选并增加宽度和高度
+listbox_people = tk.Listbox(root, selectmode=tk.MULTIPLE, width=20, height=22)  # 允许多选并增加宽度和高度
 listbox_people.grid(row=8, column=0, columnspan=2, padx=10, pady=10)
 
 # 创建显示在线人员列表的列表框
-listbox_online = tk.Listbox(root, selectmode=tk.MULTIPLE, width=20, height=20)  # 允许多选并增加宽度和高度
+listbox_online = tk.Listbox(root, selectmode=tk.MULTIPLE, width=20, height=22)  # 允许多选并增加宽度和高度
 listbox_online.grid(row=8, column=2, columnspan=2, padx=10, pady=10)
 
 label_online = tk.Label(root, text="Online")
@@ -348,22 +367,25 @@ label_not_participating = tk.Label(root, text="Not Participating")
 label_not_participating.grid(row=7, column=4, padx=10, pady=5)
 
 # 创建显示不参与分组人员列表的列表框
-listbox_not_participating = tk.Listbox(root, selectmode=tk.MULTIPLE, width=20, height=20)  # 允许多选并增加宽度和高度
+listbox_not_participating = tk.Listbox(root, selectmode=tk.MULTIPLE, width=20, height=22)  # 允许多选并增加宽度和高度
 listbox_not_participating.grid(row=8, column=4, columnspan=2, padx=10, pady=10)
 
-button_move_to_online = tk.Button(root, text="To Online -->", command=move_to_online)
+button_move_to_online = tk.Button(root, text="转线上", command=move_to_online)
 button_move_to_online.grid(row=6, column=0, padx=10, pady=5)
 
-button_move_to_onsite = tk.Button(root, text="<-- To On-site", command=move_to_onsite)
-button_move_to_onsite.grid(row=6, column=2, padx=10, pady=5)
-
+button_move_to_onsite = tk.Button(root, text="转线下", command=move_to_onsite)
+button_move_to_onsite.grid(row=6, column=1, padx=10, pady=5)
 
 # 创建分组按钮
 button_group = tk.Button(root, text="随机分组", command=show_groups)
-button_group.grid(row=10, column=2, padx=10, pady=5)
+button_group.grid(row=11, column=2, padx=10, pady=5)
 
 # 载入人员信息
 load_people()
+
+# 显示当前人数
+label_current_count = tk.Label(root, text=f"当前人数：{len(people)}")
+label_current_count.grid(row=10, column=2, padx=10,pady=5)
 
 # 运行主循环
 root.mainloop()
