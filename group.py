@@ -5,7 +5,7 @@ import os
 import random
 import time
 
-special_people1 = ["羽菲", "朱睿", "云翼", "祖盈", "Yanwen"]
+special_people1 = ["羽菲", "朱睿", "云翼", "祖盈", "彦文"]
 special_people2 = ["李尧", "常健", "志冬"]
 
 class Person:
@@ -20,13 +20,14 @@ def save_people():
     with open("people.json", "w", encoding="utf-8") as f:
         json_people = [
             {"name": person.name, "gender": person.gender, "location": person.location, "spouse": person.spouse}
-            for person in people
+            for person in people + not_participating_list
         ]
         json.dump(json_people, f, ensure_ascii=False, indent=4)
 
 def refresh_listboxes():
     listbox_people.delete(0, tk.END)
     listbox_online.delete(0, tk.END)
+    listbox_not_participating.delete(0, tk.END)
     male_list.clear()
     female_list.clear()
 
@@ -41,6 +42,9 @@ def refresh_listboxes():
         else:
             listbox_online.insert(tk.END, f"{person.name} ({person.gender})")
 
+    for person in not_participating_list:
+        listbox_not_participating.insert(tk.END, f"{person.name} ({person.gender})")
+
 
 def load_people():
     if os.path.exists("people.json"):
@@ -48,16 +52,22 @@ def load_people():
             json_people = json.load(f)
             for person_data in json_people:
                 person = Person(person_data["name"], person_data["gender"], person_data["location"], person_data["spouse"])
-                people.append(person)
-                if person.gender == "M":
-                    male_list.append(person)
+                if person.location == "Not Participating":
+                    not_participating_list.append(person)
                 else:
-                    female_list.append(person)
-                
-                if person.location == "On-site":
-                    listbox_people.insert(tk.END, f"{person.name} ({person.gender})")
-                else:
-                    listbox_online.insert(tk.END, f"{person.name} ({person.gender})")
+                    people.append(person)
+                    if person.gender == "M":
+                        male_list.append(person)
+                    else:
+                        female_list.append(person)
+                    
+                    if person.location == "On-site":
+                        listbox_people.insert(tk.END, f"{person.name} ({person.gender})")
+                    else:
+                        listbox_online.insert(tk.END, f"{person.name} ({person.gender})")
+
+            for person in not_participating_list:
+                listbox_not_participating.insert(tk.END, f"{person.name} ({person.gender})")
 
 
 def add_person():
@@ -127,6 +137,49 @@ def move_person(source_listbox, target_listbox):
         source_listbox.delete(index)
 
     save_people()
+
+def exit_group():
+    move_person_to_not_participating(listbox_people)
+    move_person_to_not_participating(listbox_online)
+
+def join_group():
+    move_person_from_not_participating()
+
+def move_person_to_not_participating(source_listbox):
+    selected_indices = list(source_listbox.curselection())
+    for index in sorted(selected_indices, reverse=True):
+        person_str = source_listbox.get(index)
+        name = person_str.split(' ')[0]
+
+        for person in people:
+            if person.name == name:
+                not_participating_list.append(person)
+                people.remove(person)
+                break
+
+        listbox_not_participating.insert(tk.END, person_str)
+        source_listbox.delete(index)
+
+    save_people()
+    refresh_listboxes()
+
+def move_person_from_not_participating():
+    selected_indices = list(listbox_not_participating.curselection())
+    for index in sorted(selected_indices, reverse=True):
+        person_str = listbox_not_participating.get(index)
+        name = person_str.split(' ')[0]
+
+        for person in not_participating_list:
+            if person.name == name:
+                people.append(person)
+                not_participating_list.remove(person)
+                break
+
+        listbox_people.insert(tk.END, person_str)
+        listbox_not_participating.delete(index)
+
+    save_people()
+    refresh_listboxes()
 
 
 def show_groups():
@@ -220,6 +273,7 @@ def create_groups(people, num_groups):
 people = []
 male_list = []
 female_list = []
+not_participating_list = []
 
 # 创建主窗口
 root = tk.Tk()
@@ -261,33 +315,47 @@ spinbox_groups.delete(0, "end")
 spinbox_groups.insert(0, "3")
 
 # 创建添加按钮
-button_add = tk.Button(root, text="添加", command=add_person)
-button_add.grid(row=4, column=0, padx=10, pady=5, columnspan=2)
+button_add = tk.Button(root, text="添加人员", command=add_person)
+button_add.grid(row=4, column=0, padx=10, pady=5, columnspan=1)
 
 # 创建删除按钮
-button_delete = tk.Button(root, text="删除", command=delete_person)
-button_delete.grid(row=4, column=2, padx=10, pady=5)
+button_delete = tk.Button(root, text="彻底删除", command=delete_person)
+button_delete.grid(row=4, column=4, padx=10, pady=5)
+
+# 创建退出分组按钮
+button_exit_group = tk.Button(root, text="退出分组", command=exit_group)
+button_exit_group.grid(row=4, column=2, padx=10, pady=5)
+
+# 创建加入分组按钮
+button_join_group = tk.Button(root, text="加入分组", command=join_group)
+button_join_group.grid(row=6, column=4, padx=10, pady=5)
 
 # 创建显示人员列表的列表框
-listbox_people = tk.Listbox(root, selectmode=tk.MULTIPLE, width=30, height=20)  # 允许多选并增加宽度和高度
-listbox_people.grid(row=8, column=0, columnspan=3, padx=10, pady=10)
+listbox_people = tk.Listbox(root, selectmode=tk.MULTIPLE, width=20, height=20)  # 允许多选并增加宽度和高度
+listbox_people.grid(row=8, column=0, columnspan=2, padx=10, pady=10)
 
 # 创建显示在线人员列表的列表框
-listbox_online = tk.Listbox(root, selectmode=tk.MULTIPLE, width=30, height=20)  # 允许多选并增加宽度和高度
-listbox_online.grid(row=8, column=3, columnspan=3, padx=10, pady=10)
+listbox_online = tk.Listbox(root, selectmode=tk.MULTIPLE, width=20, height=20)  # 允许多选并增加宽度和高度
+listbox_online.grid(row=8, column=2, columnspan=2, padx=10, pady=10)
 
 label_online = tk.Label(root, text="Online")
-label_online.grid(row=7, column=4, padx=10, pady=5)
+label_online.grid(row=7, column=2, padx=10, pady=5)
 
-label_onsite = tk.Label(root, text="On-Site")
-label_onsite.grid(row=7, column=1, padx=10, pady=5)
+label_onsite = tk.Label(root, text="On-site")
+label_onsite.grid(row=7, column=0, padx=10, pady=5)
+
+label_not_participating = tk.Label(root, text="Not Participating")
+label_not_participating.grid(row=7, column=4, padx=10, pady=5)
+
+# 创建显示不参与分组人员列表的列表框
+listbox_not_participating = tk.Listbox(root, selectmode=tk.MULTIPLE, width=20, height=20)  # 允许多选并增加宽度和高度
+listbox_not_participating.grid(row=8, column=4, columnspan=2, padx=10, pady=10)
 
 button_move_to_online = tk.Button(root, text="To Online -->", command=move_to_online)
-button_move_to_online.grid(row=6, column=1, padx=10, pady=5)
+button_move_to_online.grid(row=6, column=0, padx=10, pady=5)
 
 button_move_to_onsite = tk.Button(root, text="<-- To On-site", command=move_to_onsite)
-button_move_to_onsite.grid(row=6, column=4, padx=10, pady=5)
-
+button_move_to_onsite.grid(row=6, column=2, padx=10, pady=5)
 
 
 # 创建分组按钮
@@ -299,3 +367,4 @@ load_people()
 
 # 运行主循环
 root.mainloop()
+
