@@ -6,22 +6,10 @@
         "spouse": ""
     },
     {
-        "name": "常健",
-        "gender": "M",
-        "location": "On-site",
-        "spouse": "德琳"
-    },
-    {
         "name": "黄震",
         "gender": "M",
         "location": "On-site",
         "spouse": ""
-    },
-    {
-        "name": "忭豪",
-        "gender": "M",
-        "location": "Online",
-        "spouse": "玉珏"
     },
     {
         "name": "金花",
@@ -30,34 +18,10 @@
         "spouse": "袁涛"
     },
     {
-        "name": "玉珏",
-        "gender": "F",
-        "location": "On-site",
-        "spouse": "忭豪"
-    },
-    {
-        "name": "朱睿",
-        "gender": "F",
-        "location": "On-site",
-        "spouse": ""
-    },
-    {
-        "name": "祖盈",
-        "gender": "F",
-        "location": "On-site",
-        "spouse": ""
-    },
-    {
         "name": "李尧",
         "gender": "M",
         "location": "On-site",
         "spouse": "益敏"
-    },
-    {
-        "name": "凡舒",
-        "gender": "F",
-        "location": "On-site",
-        "spouse": "志冬"
     },
     {
         "name": "袁涛",
@@ -72,12 +36,6 @@
         "spouse": "凡舒"
     },
     {
-        "name": "袁航",
-        "gender": "M",
-        "location": "Online",
-        "spouse": "祥娟"
-    },
-    {
         "name": "祥娟",
         "gender": "F",
         "location": "Online",
@@ -86,12 +44,6 @@
     {
         "name": "Joe",
         "gender": "M",
-        "location": "On-site",
-        "spouse": ""
-    },
-    {
-        "name": "羽菲",
-        "gender": "F",
         "location": "On-site",
         "spouse": ""
     },
@@ -108,21 +60,69 @@
         "spouse": ""
     },
     {
+        "name": "羽菲",
+        "gender": "F",
+        "location": "On-site",
+        "spouse": ""
+    },
+    {
+        "name": "常健",
+        "gender": "M",
+        "location": "Online",
+        "spouse": "德琳"
+    },
+    {
+        "name": "凡舒",
+        "gender": "F",
+        "location": "On-site",
+        "spouse": "志冬"
+    },
+    {
+        "name": "德琳",
+        "gender": "F",
+        "location": "Online",
+        "spouse": "常健"
+    },
+    {
         "name": "Sue",
         "gender": "F",
         "location": "On-site",
         "spouse": ""
     },
     {
-        "name": "德琳",
-        "gender": "F",
-        "location": "On-site",
-        "spouse": "常健"
+        "name": "袁航",
+        "gender": "M",
+        "location": "Online",
+        "spouse": "祥娟"
     },
     {
         "name": "彦文",
         "gender": "M",
         "location": "On-site",
         "spouse": ""
+    },
+    {
+        "name": "祖盈",
+        "gender": "F",
+        "location": "On-site",
+        "spouse": ""
+    },
+    {
+        "name": "玉珏",
+        "gender": "F",
+        "location": "On-site",
+        "spouse": "忭豪"
+    },
+    {
+        "name": "朱睿",
+        "gender": "F",
+        "location": "On-site",
+        "spouse": ""
+    },
+    {
+        "name": "忭豪",
+        "gender": "M",
+        "location": "Online",
+        "spouse": "玉珏"
     }
 ]

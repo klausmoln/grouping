@@ -350,11 +350,11 @@ button_join_group = tk.Button(root, text="加入分组", command=join_group)
 button_join_group.grid(row=6, column=4, padx=10, pady=5)
 
 # 创建显示人员列表的列表框
-listbox_people = tk.Listbox(root, selectmode=tk.MULTIPLE, width=20, height=22)  # 允许多选并增加宽度和高度
+listbox_people = tk.Listbox(root, selectmode=tk.MULTIPLE, width=20, height=18)  # 允许多选并增加宽度和高度
 listbox_people.grid(row=8, column=0, columnspan=2, padx=10, pady=10)
 
 # 创建显示在线人员列表的列表框
-listbox_online = tk.Listbox(root, selectmode=tk.MULTIPLE, width=20, height=22)  # 允许多选并增加宽度和高度
+listbox_online = tk.Listbox(root, selectmode=tk.MULTIPLE, width=20, height=18)  # 允许多选并增加宽度和高度
 listbox_online.grid(row=8, column=2, columnspan=2, padx=10, pady=10)
 
 label_online = tk.Label(root, text="Online")
@@ -367,7 +367,7 @@ label_not_participating = tk.Label(root, text="Not Participating")
 label_not_participating.grid(row=7, column=4, padx=10, pady=5)
 
 # 创建显示不参与分组人员列表的列表框
-listbox_not_participating = tk.Listbox(root, selectmode=tk.MULTIPLE, width=20, height=22)  # 允许多选并增加宽度和高度
+listbox_not_participating = tk.Listbox(root, selectmode=tk.MULTIPLE, width=20, height=18)  # 允许多选并增加宽度和高度
 listbox_not_participating.grid(row=8, column=4, columnspan=2, padx=10, pady=10)
 
 button_move_to_online = tk.Button(root, text="转线上", command=move_to_online)
