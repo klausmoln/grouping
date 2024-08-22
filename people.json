@@ -54,12 +54,6 @@
         "spouse": "李尧"
     },
     {
-        "name": "云翼",
-        "gender": "M",
-        "location": "On-site",
-        "spouse": ""
-    },
-    {
         "name": "羽菲",
         "gender": "F",
         "location": "On-site",
@@ -124,5 +118,11 @@
         "gender": "M",
         "location": "Online",
         "spouse": "玉珏"
+    },
+    {
+        "name": "云翼",
+        "gender": "M",
+        "location": "On-site",
+        "spouse": ""
     }
 ]
