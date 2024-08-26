@@ -102,6 +102,12 @@
         "spouse": ""
     },
     {
+        "name": "忭豪",
+        "gender": "M",
+        "location": "Online",
+        "spouse": "玉珏"
+    },
+    {
         "name": "玉珏",
         "gender": "F",
         "location": "On-site",
@@ -112,12 +118,6 @@
         "gender": "F",
         "location": "On-site",
         "spouse": ""
-    },
-    {
-        "name": "忭豪",
-        "gender": "M",
-        "location": "Online",
-        "spouse": "玉珏"
     },
     {
         "name": "云翼",

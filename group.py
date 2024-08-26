@@ -5,9 +5,6 @@ import os
 import random
 import time
 
-special_people1 = ["羽菲", "朱睿", "云翼", "祖盈", "彦文"]
-special_people2 = ["李尧", "常健", "志冬"]
-
 
 class Person:
     def __init__(self, name, gender, location, spouse=None):
@@ -24,6 +21,24 @@ def save_people():
             for person in people + not_participating_list
         ]
         json.dump(json_people, f, ensure_ascii=False, indent=4)
+
+
+# 保存当前分组结果到文件
+def save_last_groups(groups):
+    # 将当前分组保存为 JSON 文件
+    with open("last_groups.json", "w", encoding="utf-8") as f:
+        json_groups = [
+            [person.name for person in group] for group in groups
+        ]
+        json.dump(json_groups, f, ensure_ascii=False, indent=4)
+
+
+# 读取上一次的分组结果
+def load_last_groups():
+    if os.path.exists("last_groups.json"):
+        with open("last_groups.json", "r", encoding="utf-8") as f:
+            return json.load(f)
+    return []
 
 
 def refresh_listboxes():
@@ -229,38 +244,61 @@ def check_gender_balance(groups):
     return True
 
 
-def separate_special_people1(groups):
-    for group in groups:
-        count_group_special_names = sum([1 for person in group if person.name in special_people1])
-        if count_group_special_names > 2:
-            return False
-    return True
+young_people = ["羽菲", "朱睿", "云翼", "祖盈", "彦文"]
+main_brothers = ["李尧", "常健", "志冬"]
+family_chang = ["Joe", "Sue", "常健", "德琳"]
 
 
-def separate_special_people2(groups):
+def separate_special_people(groups, names, max_number):
     for group in groups:
-        count_group_special_names = sum([1 for person in group if person.name in special_people2])
-        if count_group_special_names > 1:
+        count_group_special_names = sum([1 for person in group if person.name in names])
+        if count_group_special_names > max_number:
             return False
     return True
 
 
 def create_groups(num_groups):
-    # 先使男生平均分组，再使女生平均分组
+    last_groups = load_last_groups()
+    # print(last_groups)
+
+    # 创建上次分组的映射，以便快速查询某人上次的组员
+    last_group_map = {}
+    for group in last_groups:
+        for person_name in group:
+            last_group_map[person_name] = set([p for p in group if p != person_name])
+            # last_group_map[person_name] = set(group)
+    print(last_group_map['云翼'])
+
     start = time.time()
     while True:
-
         random.shuffle(male_list)
         random.shuffle(female_list)
         groups = [[] for _ in range(num_groups)]
+
         for i, person in enumerate(male_list):
             groups[i % num_groups].append(person)
-        # print(i)
         i += 1
         for j, person in enumerate(female_list):
             groups[(i + j) % num_groups].append(person)
+
+        # 检查每个组中是否有3个及以上的人在上一次分组中是同组的
+        valid_groups = True
+        for group in groups:
+            # overlap_count = 0
+            for person in group:
+                if person.name in last_group_map:
+                    overlap = last_group_map[person.name].intersection(set([p.name for p in group]))
+                    if len(overlap) >= 3:  # 组内有3个或更多的重复成员
+                        valid_groups = False
+                        break
+            if not valid_groups:
+                break
+
         end = time.time()
-        if separate_spouses(groups) and separate_special_people1(groups) and separate_special_people2(groups):
+        if valid_groups and separate_special_people(groups, main_brothers, 1) and separate_spouses(
+                groups) and separate_special_people(
+                groups, young_people, 2) and separate_special_people(groups, family_chang, 2):
+            save_last_groups(groups)
             return groups
         elif (end - start) > 0.5:
             messagebox.showerror("错误", "不存在满足条件的分组情况")
