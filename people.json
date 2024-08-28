@@ -54,15 +54,9 @@
         "spouse": "李尧"
     },
     {
-        "name": "羽菲",
-        "gender": "F",
-        "location": "On-site",
-        "spouse": ""
-    },
-    {
         "name": "常健",
         "gender": "M",
-        "location": "Online",
+        "location": "On-site",
         "spouse": "德琳"
     },
     {
@@ -74,7 +68,7 @@
     {
         "name": "德琳",
         "gender": "F",
-        "location": "Online",
+        "location": "On-site",
         "spouse": "常健"
     },
     {
@@ -90,18 +84,6 @@
         "spouse": "祥娟"
     },
     {
-        "name": "彦文",
-        "gender": "M",
-        "location": "On-site",
-        "spouse": ""
-    },
-    {
-        "name": "祖盈",
-        "gender": "F",
-        "location": "On-site",
-        "spouse": ""
-    },
-    {
         "name": "忭豪",
         "gender": "M",
         "location": "Online",
@@ -114,14 +96,32 @@
         "spouse": "忭豪"
     },
     {
+        "name": "云翼",
+        "gender": "M",
+        "location": "On-site",
+        "spouse": ""
+    },
+    {
         "name": "朱睿",
         "gender": "F",
         "location": "On-site",
         "spouse": ""
     },
     {
-        "name": "云翼",
+        "name": "祖盈",
+        "gender": "F",
+        "location": "On-site",
+        "spouse": ""
+    },
+    {
+        "name": "彦文",
         "gender": "M",
+        "location": "On-site",
+        "spouse": ""
+    },
+    {
+        "name": "羽菲",
+        "gender": "F",
         "location": "On-site",
         "spouse": ""
     }

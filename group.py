@@ -267,7 +267,7 @@ def create_groups(num_groups):
         for person_name in group:
             last_group_map[person_name] = set([p for p in group if p != person_name])
             # last_group_map[person_name] = set(group)
-    print(last_group_map['云翼'])
+    # print(last_group_map['云翼'])
 
     start = time.time()
     while True:
