@@ -18,9 +18,14 @@ def save_people():
     with open("people.json", "w", encoding="utf-8") as f:
         json_people = [
             {"name": person.name, "gender": person.gender, "location": person.location, "spouse": person.spouse}
-            for person in people + not_participating_list
+            for person in people
         ]
-        json.dump(json_people, f, ensure_ascii=False, indent=4)
+        json_not_participating = [
+            {"name": person.name, "gender": person.gender, "location": person.location, "spouse": person.spouse}
+            for person in not_participating_list
+        ]
+        json.dump({"participating": json_people, "not_participating": json_not_participating}, f, ensure_ascii=False,
+                  indent=4)
 
 
 # 保存当前分组结果到文件
@@ -67,25 +72,30 @@ def refresh_listboxes():
 def load_people():
     if os.path.exists("people.json"):
         with open("people.json", "r", encoding="utf-8") as f:
-            json_people = json.load(f)
+            data = json.load(f)
+
+            # 加载参与分组的人员
+            json_people = data.get("participating", [])
             for person_data in json_people:
                 person = Person(person_data["name"], person_data["gender"], person_data["location"],
                                 person_data["spouse"])
-                if person.location == "Not Participating":
-                    not_participating_list.append(person)
+                people.append(person)
+                if person.gender == "M":
+                    male_list.append(person)
                 else:
-                    people.append(person)
-                    if person.gender == "M":
-                        male_list.append(person)
-                    else:
-                        female_list.append(person)
+                    female_list.append(person)
 
-                    if person.location == "On-site":
-                        listbox_offline.insert(tk.END, f"{person.name} ({person.gender})")
-                    else:
-                        listbox_online.insert(tk.END, f"{person.name} ({person.gender})")
+                if person.location == "On-site":
+                    listbox_offline.insert(tk.END, f"{person.name} ({person.gender})")
+                else:
+                    listbox_online.insert(tk.END, f"{person.name} ({person.gender})")
 
-            for person in not_participating_list:
+            # 加载不参与分组的人员
+            json_not_participating = data.get("not_participating", [])
+            for person_data in json_not_participating:
+                person = Person(person_data["name"], person_data["gender"], person_data["location"],
+                                person_data["spouse"])
+                not_participating_list.append(person)
                 listbox_not_participating.insert(tk.END, f"{person.name} ({person.gender})")
 
 
@@ -275,6 +285,7 @@ def create_groups(num_groups):
         random.shuffle(female_list)
         groups = [[] for _ in range(num_groups)]
 
+        i = -1
         for i, person in enumerate(male_list):
             groups[i % num_groups].append(person)
         i += 1
@@ -297,7 +308,7 @@ def create_groups(num_groups):
         end = time.time()
         if valid_groups and separate_special_people(groups, main_brothers, 1) and separate_spouses(
                 groups) and separate_special_people(
-                groups, young_people, 2) and separate_special_people(groups, family_chang, 2):
+            groups, young_people, 2) and separate_special_people(groups, family_chang, 2):
             save_last_groups(groups)
             return groups
         elif (end - start) > 0.5:
