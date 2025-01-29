@@ -256,7 +256,6 @@ def check_gender_balance(groups):
 
 young_people = ["羽菲", "朱睿", "云翼", "祖盈", "彦文"]
 main_brothers = ["李尧", "常健", "志冬"]
-family_chang = ["Joe", "Sue", "常健", "德琳"]
 
 
 def separate_special_people(groups, names, max_number):
@@ -308,7 +307,7 @@ def create_groups(num_groups):
         end = time.time()
         if valid_groups and separate_special_people(groups, main_brothers, 1) and separate_spouses(
                 groups) and separate_special_people(
-            groups, young_people, 2) and separate_special_people(groups, family_chang, 2):
+            groups, young_people, 2):
             save_last_groups(groups)
             return groups
         elif (end - start) > 0.5:
