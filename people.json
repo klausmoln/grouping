@@ -31,12 +31,6 @@
             "spouse": ""
         },
         {
-            "name": "云翼",
-            "gender": "M",
-            "location": "On-site",
-            "spouse": ""
-        },
-        {
             "name": "羽菲",
             "gender": "F",
             "location": "On-site",
@@ -85,37 +79,31 @@
             "spouse": "袁航"
         },
         {
-            "name": "Yilun",
-            "gender": "M",
-            "location": "On-site",
-            "spouse": "Xiaojuan"
-        },
-        {
-            "name": "xiaojuan",
-            "gender": "F",
-            "location": "On-site",
-            "spouse": "Yilun"
-        },
-        {
             "name": "祖盈",
             "gender": "F",
             "location": "On-site",
             "spouse": ""
         },
         {
-            "name": "Zhou",
+            "name": "益伦",
+            "gender": "M",
+            "location": "On-site",
+            "spouse": "晓娟"
+        },
+        {
+            "name": "晓娟",
+            "gender": "F",
+            "location": "On-site",
+            "spouse": "益伦"
+        },
+        {
+            "name": "云翼",
             "gender": "M",
             "location": "On-site",
             "spouse": ""
         }
     ],
     "not_participating": [
-        {
-            "name": "Zhanfei",
-            "gender": "M",
-            "location": "On-site",
-            "spouse": ""
-        },
         {
             "name": "金花",
             "gender": "F",
